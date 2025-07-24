@@ -1,0 +1,95 @@
+.welcome-container {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+   background-color: grey;
+   padding: 50px;
+   width: 350px;
+   height: 450px;
+   border-radius: 20px;
+   box-shadow: 5px 5px 30px rgb(27, 27, 27);
+}
+
+.welcome-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.echo-logo {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.echo-title {
+ font-family: "comfortaa";
+ font-size: 3em;
+ color: white;
+}
+
+.echo-subtitle {
+  font-family: "major mono display";
+  font-size: 1em;
+  color: white;
+  letter-spacing: 5px;
+}
+
+.auth-container {  
+  background-color: rgb(53, 53, 53);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px rgb(90, 90, 90);
+}
+
+.auth-container form {
+  gap: 5px;
+  width: 250px;
+}
+
+.auth-container form input,
+.auth-container form button {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.8em;
+}
+
+.auth-container form button {
+  cursor: pointer;
+  
+  transition: background-color 0.25s;
+  will-change: background-color;
+}
+
+.auth-container form button:hover {
+  background-color: rgb(207, 207, 207);
+}
+
+.welcome-link {
+  background-color: black;
+  color: white;
+  font-size: 0.8em;
+  width: fit-content;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px rgb(39, 39, 39);
+
+  transition: background-color 0.25s;
+  will-change: background-color;
+}
+
+.welcome-link:hover {
+  cursor: pointer;
+  background-color: rgb(87, 87, 87);
+}
