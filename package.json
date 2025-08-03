@@ -12,6 +12,7 @@
     "install": "npm install react-router-dom"
   },
   "dependencies": {
+    "emoji-picker-element": "^1.26.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"

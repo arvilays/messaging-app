@@ -3,6 +3,19 @@
   height: 100vh;
 }
 
+.hide {
+  display: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+}
+
 /** --- SIDEBAR --- **/
 .dashboard-sidebar {
   background-color: rgb(43, 43, 43);
@@ -65,12 +78,65 @@ hr {
   border-color: black;
 }
 
+.conversation-category-add-users {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0px;
+  padding: 20px;
+}
+
+.conversation-category-add-users input {
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.add-user {
+  background-color: rgb(43, 43, 43);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  transition: background-color 0.25s;
+  will-change: background-color;
+}
+
+.add-user:hover {
+  cursor: pointer;
+  background-color: rgb(85, 85, 85);
+}
+
+.create-conversation {
+  background-color: rgb(43, 43, 43);
+  padding: 10px;
+  border-radius: 10px;
+
+  transition: background-color 0.25s;
+  will-change: background-color;
+}
+
+.create-conversation:hover {
+  cursor: pointer;
+  background-color: rgb(85, 85, 85);
+}
+
 .conversation-category-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin: 10px 20px 20px;
+}
 
+.conversation-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .conversation-item {
@@ -91,8 +157,57 @@ hr {
   background-color: grey;
 }
 
-.conversation-icon {
+.conversation-item.selected {
+  background-color: grey;
+}
+
+.conversation-icon-global {
   width: 30px;
+}
+
+.conversation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 2em;
+  position: relative;
+  bottom: 2px;
+}
+
+.emoji-stack {
+  position: relative;
+  bottom: 21px;
+  right: 25px;
+  font-size: 0.75em;
+}
+
+.emoji-stack .emoji-back {
+  position: absolute;
+  top: 10px;
+  z-index: 1;
+}
+
+.emoji-stack .emoji-front {
+  position: absolute;
+  left: 15px;
+}
+
+.emoji-stack .emoji-extra {
+  position: absolute;
+  color: white;
+  font-size: 0.5em;
+  top: 30px;
+  left: 25px;
+  z-index: 1;
+}
+
+.emoji-picker {
+  z-index: 2;
+  position: absolute;
+  bottom: 70px;
+  left: 40px;
 }
 
 .dashboard-sidebar-profile {
@@ -105,8 +220,12 @@ hr {
 }
 
 .profile-avatar {
-  width: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 2em;
   margin-right: 10px;
+  width: 40px;
+  height: 40px;
 }
 
 .profile-name {
@@ -137,12 +256,32 @@ hr {
 .dashboard-chat-main {
   flex: 1;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
   display: flex;
   flex-direction: column;
   gap: 25px;
   height: 100%;
   padding: 20px;
-  border: 1px solid black;
+}
+
+.dashboard-chat-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-chat-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-chat-main::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.dashboard-chat-main::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
 }
 
 .chat-message {
@@ -150,10 +289,21 @@ hr {
   display: flex;
   align-items: center;
   gap: 10px;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
 }
 
 .chat-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  margin-bottom: auto;
   width: 40px;
+  height: 40px;
 }
 
 .chat-content {
@@ -184,12 +334,18 @@ hr {
   padding: 10px;
 }
 
-.dashboard-chat-bar input {
-  box-sizing: border-box;
-  font-size: 1.25em;
+.chat-textarea {
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  resize: none;
+  overflow: hidden;
+  min-height: 40px;
+  max-height: 200px;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 
 /** --- MEMBERS --- **/
@@ -220,9 +376,25 @@ hr {
 }
 
 .dashboard-members-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
   width: 40px;
+  height: 40px;
 }
 
 .dashboard-members-username {
   font-weight: 800;
 }
+
+
+
+
+
+
+
+
+
+
+
