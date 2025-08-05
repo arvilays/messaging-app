@@ -3,17 +3,14 @@
   height: 100vh;
 }
 
-.hide {
-  display: none;
-}
-
-.noselect {
-  -webkit-touch-callout: none;
-    -webkit-user-select: none; 
-     -khtml-user-select: none; 
-       -moz-user-select: none; 
-        -ms-user-select: none; 
-            user-select: none; 
+.chat-loading-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgb(180, 180, 180);
+  /* Uses a color from your existing theme */
+  font-size: 1.2rem;
 }
 
 /** --- SIDEBAR --- **/
@@ -24,14 +21,13 @@
   width: 300px;
 }
 
+/* Sidebar: Header */
 .dashboard-sidebar-header {
   background-color: black;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
   padding: 20px;
 }
 
@@ -41,41 +37,24 @@
 
 .dashboard-sidebar-header-title {
   color: white;
-  font-family: "comfortaa";
+  font-family: "comfortaa", sans-serif;
   font-size: 1.5em;
 }
 
-.conversation-global {
-  margin: 20px;
-}
-
-.conversation-category {
-  display: flex;
-  align-items: center;
-  color: rgb(233, 233, 233);;
-  text-align: center;
-  margin: 0px 10px -10px;
-  padding: 10px;
-}
-
+/* Sidebar: Add Conversation */
 .conversation-category-add {
   color: rgb(85, 85, 85);
   font-size: 1.5em;
   margin-left: auto;
   padding: 5px;
-
   transition: color 0.25s;
   will-change: color;
 }
 
 .conversation-category-add:hover {
   cursor: pointer;
-  color: rgb(233, 233, 233);;
-}
-
-hr {
-  margin: 0px 20px 0px;
-  border-color: black;
+  color: rgb(233, 233, 233);
+  ;
 }
 
 .conversation-category-add-users {
@@ -96,13 +75,13 @@ hr {
 
 .add-user {
   background-color: rgb(43, 43, 43);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-
   transition: background-color 0.25s;
   will-change: background-color;
 }
@@ -114,9 +93,9 @@ hr {
 
 .create-conversation {
   background-color: rgb(43, 43, 43);
+  color: white;
   padding: 10px;
   border-radius: 10px;
-
   transition: background-color 0.25s;
   will-change: background-color;
 }
@@ -126,17 +105,24 @@ hr {
   background-color: rgb(85, 85, 85);
 }
 
+/* Sidebar: Conversations */
+.conversation-global {
+  margin: 20px;
+}
+
+.conversation-category {
+  display: flex;
+  align-items: center;
+  color: rgb(233, 233, 233);;
+  margin: 0px 10px -10px;
+  padding: 10px;
+}
+
 .conversation-category-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin: 10px 20px 20px;
-}
-
-.conversation-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .conversation-item {
@@ -147,17 +133,13 @@ hr {
   gap: 10px;
   padding: 15px;
   border-radius: 20px;
-
   transition: background-color 0.25s;
   will-change: background-color;
 }
 
-.conversation-item:hover {
-  cursor: pointer;
-  background-color: grey;
-}
-
+.conversation-item:hover,
 .conversation-item.selected {
+  cursor: pointer;
   background-color: grey;
 }
 
@@ -169,24 +151,30 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2em;
   width: 30px;
   height: 30px;
-  font-size: 2em;
   position: relative;
-  bottom: 2px;
+}
+
+.conversation-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .emoji-stack {
   position: relative;
-  bottom: 21px;
-  right: 25px;
   font-size: 0.75em;
+  bottom: 25px;
+  right: 25px;
 }
 
 .emoji-stack .emoji-back {
+  z-index: 1;
   position: absolute;
   top: 10px;
-  z-index: 1;
 }
 
 .emoji-stack .emoji-front {
@@ -195,12 +183,12 @@ hr {
 }
 
 .emoji-stack .emoji-extra {
+  z-index: 1;
   position: absolute;
   color: white;
   font-size: 0.5em;
   top: 30px;
   left: 25px;
-  z-index: 1;
 }
 
 .emoji-picker {
@@ -210,22 +198,25 @@ hr {
   left: 40px;
 }
 
+/* Sidebar: Profile */
 .dashboard-sidebar-profile {
   color: white;
   display: flex;
   align-items: center;
-  margin-top: auto;
-  margin: auto 20px 0px;
+  margin: auto 20px 0;
   height: 70px;
 }
 
 .profile-avatar {
-  display: flex;
-  align-items: center;
   font-size: 2em;
   margin-right: 10px;
-  width: 40px;
-  height: 40px;
+  transition: filter 0.25s;
+  will-change: filter;
+}
+
+.profile-avatar:hover {
+  cursor: pointer;
+  filter: drop-shadow(0px 0px 3px white);
 }
 
 .profile-name {
@@ -236,7 +227,6 @@ hr {
   margin-left: auto;
   width: 30px;
   filter: brightness(50%);
-
   transition: filter 0.25s;
   will-change: filter;
 }
@@ -246,7 +236,7 @@ hr {
   filter: brightness(100%);
 }
 
-/** --- CHAT --- **/
+/** --- CHAT WINDOW --- **/
 .dashboard-chat {
   flex: 1;
   display: flex;
@@ -256,32 +246,12 @@ hr {
 .dashboard-chat-main {
   flex: 1;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #999 transparent;
   display: flex;
   flex-direction: column;
   gap: 25px;
-  height: 100%;
   padding: 20px;
-}
-
-.dashboard-chat-main::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dashboard-chat-main::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dashboard-chat-main::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-.dashboard-chat-main::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
 }
 
 .chat-message {
@@ -289,21 +259,13 @@ hr {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: break-word;
   line-height: 1.4;
+  word-break: break-word;
 }
 
 .chat-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 2em;
   margin-bottom: auto;
-  width: 40px;
-  height: 40px;
 }
 
 .chat-content {
@@ -344,15 +306,20 @@ hr {
   line-height: 1.4;
   padding: 8px 12px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
-/** --- MEMBERS --- **/
+.dashboard-chat-bar button {
+  padding: 0px 10px;
+  border: initial;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/** --- MEMBERS LIST --- **/
 .dashboard-members {
   background-color: rgb(43, 43, 43);
-  display: flex;
-  flex-direction: column;
   width: 300px;
 }
 
@@ -387,7 +354,6 @@ hr {
 .dashboard-members-username {
   font-weight: 800;
 }
-
 
 
 

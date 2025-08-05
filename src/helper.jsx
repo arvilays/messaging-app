@@ -1,31 +1,34 @@
 export const formatTimestamp = (isoString) => {
   const date = new Date(isoString);
   const now = new Date();
+  const diffInSeconds = Math.round((now - date) / 1000);
+  const diffInDays = Math.floor(diffInSeconds / 86400);
 
-  const isSameDay = (a, b) =>
-    a.getDate() === b.getDate() &&
-    a.getMonth() === b.getMonth() &&
-    a.getFullYear() === b.getFullYear();
-
-  const isYesterday = (a, b) => {
-    const yesterday = new Date(b);
-    yesterday.setDate(b.getDate() - 1);
-    return isSameDay(a, yesterday);
-  };
-
-  const time = date.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
+  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
   });
 
-  if (isSameDay(date, now)) {
-    return time;
-  } else if (isYesterday(date, now)) {
-    return `Yesterday at ${time}`;
-  } else {
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${month}/${day}/${year} at ${time}`;
+  // Return just the time if date is today
+  if (diffInDays === 0) {
+    return timeFormatter.format(date);
   }
+
+  const rtf = new Intl.RelativeTimeFormat('en-US', { numeric: 'auto' });
+
+  if (diffInDays === 1) {
+    return `Yesterday at ${timeFormatter.format(date)}`;
+  }
+
+  if (diffInDays > 1 && diffInDays < 7) {
+    return `${rtf.format(-diffInDays, 'day')} at ${timeFormatter.format(date)}`;
+  }
+
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  return `${dateFormatter.format(date)} at ${timeFormatter.format(date)}`;
 };

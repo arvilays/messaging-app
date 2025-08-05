@@ -1,0 +1,69 @@
+import { useState } from "react";
+
+function AuthForm({ isLogin, apiClient, onAuthSuccess }) {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    if (!isLogin && data.password !== data.confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      if (isLogin) {
+        const response = await apiClient.request("/login", {
+          method: "POST",
+          data,
+        });
+        onAuthSuccess(response.token);
+      } else {
+        await apiClient.request("/signup", {
+          method: "POST",
+          data,
+        });
+
+        const response = await apiClient.request("/login", {
+          method: "POST",
+          data: { username: data.username, password: data.password },
+        });
+        onAuthSuccess(response.token);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        {!isLogin && (
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          />
+        )}
+        <button type="submit" disabled={loading}>
+          {loading ? "Processing..." : isLogin ? "Log In" : "Create Account"}
+        </button>
+        {error && <p className="auth-error">{error}</p>}
+      </form>
+    </div>
+  );
+}
+
+export default AuthForm;

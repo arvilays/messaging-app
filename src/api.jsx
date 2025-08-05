@@ -1,16 +1,26 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+class ApiClient {
+  constructor(baseURL) {
+    this.baseURL = baseURL;
+    this.token = localStorage.getItem('jwtToken');
+  }
 
-const apiClient = {
-  async request(endpoint, { method = 'GET', data = null, token = null } = {}) {
+  setToken(token) {
+    this.token = token;
+    if (token) {
+      localStorage.setItem('jwtToken', token);
+    } else {
+      localStorage.removeItem('jwtToken');
+    }
+  }
+
+  async request(endpoint, { method = 'GET', data = null } = {}) {
     const config = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     };
 
-    if (token) {
-      config.headers.Authorization = token;
+    if (this.token) {
+      config.headers.Authorization = this.token;
     }
 
     if (data) {
@@ -18,26 +28,25 @@ const apiClient = {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+      const response = await fetch(`${this.baseURL}${endpoint}`, config);
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: response.statusText }));
-        throw new Error(errorData.message || 'An error occurred');
+        const errorData = await response.json().catch(() => ({
+          message: `Request failed with status ${response.status}`,
+        }));
+        throw new Error(errorData.message || 'An unknown error occurred.');
       }
 
-      if (response.status === 204) {
-        return null;
+      if (response.status === 204 || response.headers.get("Content-Length") === "0") {
+        return null; // No content
       }
 
-      if (response.headers.get("content-type")?.includes("application/json")) {
-        return response.json();
-      }
-
-      return response.text();
+      return response.json();
     } catch (error) {
-      console.error('API Client Error:', error);
+      console.error('API Client Error:', error.message);
       throw error;
     }
-  },
-};
+  }
+}
 
-export default apiClient;
+export default new ApiClient('http://localhost:3000/api');

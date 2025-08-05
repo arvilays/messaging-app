@@ -1,24 +1,22 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import apiClient from "./api";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('jwtToken'));
+  const [token, setToken] = useState(apiClient.token);
 
-  const context = useMemo(() => ({ apiClient, token, setToken }), [token]);
+  const handleSetToken = (newToken) => {
+    apiClient.setToken(newToken);
+    setToken(newToken);
+  };
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('jwtToken');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+  const context = useMemo(() => ({
+    apiClient,
+    token,
+    setToken: handleSetToken
+  }), [token]);
 
-  return (
-    <>
-      <Outlet context={context} />
-    </>
-  )
-};
+  return <Outlet context={context} />;
+}
 
 export default App;
