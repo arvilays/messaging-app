@@ -14,7 +14,7 @@
   box-shadow: 5px 5px 30px rgb(27, 27, 27);
 
   background-color: #3e3e3e;
-    background-image: radial-gradient(circle at center center, #b8b8b8, #464646), repeating-radial-gradient(circle at center center, #c1c1c1, #c1c1c1, 10px, transparent 20px, transparent 10px);
+    background-image: radial-gradient(circle at center center, #dadada, #888888), repeating-radial-gradient(circle at center center, #c1c1c1, #c1c1c1, 10px, transparent 20px, transparent 10px);
     background-blend-mode: multiply;
 }
 
