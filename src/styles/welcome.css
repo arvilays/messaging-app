@@ -79,6 +79,16 @@
   margin-top: 10px;
 }
 
+.signup-disclaimer {
+  background-color: black;
+  color: white;
+  font-size: 0.6em;
+  text-align: center;
+  margin: -5px 0px 8px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
 /* --- Navigation Link --- */
 .welcome-link {
   background-color: black;

@@ -47,6 +47,11 @@ function AuthForm({ isLogin, apiClient, onAuthSuccess }) {
   return (
     <div className="auth-container">
       <form onSubmit={handleSubmit}>
+        {!isLogin && (
+          <div className="signup-disclaimer">
+            You will be automatically logged into a global chat. Your username will be visible to everyone, so please do not share any sensitive information.
+          </div>
+        )}
         <input type="text" name="username" placeholder="Username" required />
         <input type="password" name="password" placeholder="Password" required />
         {!isLogin && (
