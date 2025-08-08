@@ -12,6 +12,10 @@
   width: 450px;
   border-radius: 20px;
   box-shadow: 5px 5px 30px rgb(27, 27, 27);
+
+  background-color: #3e3e3e;
+    background-image: radial-gradient(circle at center center, #b8b8b8, #464646), repeating-radial-gradient(circle at center center, #c1c1c1, #c1c1c1, 10px, transparent 20px, transparent 10px);
+    background-blend-mode: multiply;
 }
 
 /* --- Logo & Title --- */
@@ -35,14 +39,13 @@
 
 /* --- Auth Form --- */
 .auth-container {
-  background-color: rgb(53, 53, 53);
+  background-color: rgb(196, 196, 196);
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 5px 5px 5px rgb(90, 90, 90);
 }
 
 .auth-container form {
@@ -54,19 +57,26 @@
 
 .auth-container form input,
 .auth-container form button {
+  font-size: 0.8em;
   padding: 10px;
   border-radius: 10px;
-  font-size: 0.8em;
 }
 
 .auth-container form button {
   cursor: pointer;
-  transition: background-color 0.25s;
-  will-change: background-color;
+  transition: background-color 0.25s, color 0.25s;
+  will-change: background-color, color;
 }
 
 .auth-container form button:hover {
-  background-color: rgb(207, 207, 207);
+  background-color: rgb(37, 37, 37);
+  color: white;
+}
+
+.auth-error {
+  color: rgb(255, 135, 135);
+  text-align: center;
+  margin-top: 10px;
 }
 
 /* --- Navigation Link --- */
@@ -77,13 +87,29 @@
   width: fit-content;
   margin-top: 10px;
   padding: 10px;
+  border: 2px solid rgb(61, 61, 61);
   border-radius: 10px;
-  box-shadow: 3px 3px 0px rgb(39, 39, 39);
-  transition: background-color 0.25s;
-  will-change: background-color;
+  transition: background-color 0.25s, color 0.25s;
+  will-change: background-color, color;
 }
 
 .welcome-link:hover {
   cursor: pointer;
-  background-color: rgb(87, 87, 87);
+  background-color: white;
+  color: black;
+}
+
+/* --- Credits --- */
+.credits-dev {
+  color: rgb(95, 95, 95);
+  font-size: 0.8em;
+  position: fixed;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.credits-dev a {
+  color: rgb(95, 95, 95);
+  text-decoration: none;
 }

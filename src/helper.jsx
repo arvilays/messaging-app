@@ -14,21 +14,15 @@ export const formatTimestamp = (isoString) => {
     return timeFormatter.format(date);
   }
 
-  const rtf = new Intl.RelativeTimeFormat('en-US', { numeric: 'auto' });
-
   if (diffInDays === 1) {
     return `Yesterday at ${timeFormatter.format(date)}`;
   }
 
-  if (diffInDays > 1 && diffInDays < 7) {
-    return `${rtf.format(-diffInDays, 'day')} at ${timeFormatter.format(date)}`;
-  }
-
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
+    month: 'numeric',
+    day: 'numeric',
   });
 
-  return `${dateFormatter.format(date)} at ${timeFormatter.format(date)}`;
+  return `${dateFormatter.format(date)} ${timeFormatter.format(date)}`;
 };

@@ -60,7 +60,7 @@ function AuthForm({ isLogin, apiClient, onAuthSuccess }) {
         <button type="submit" disabled={loading}>
           {loading ? "Processing..." : isLogin ? "Log In" : "Create Account"}
         </button>
-        {error && <p className="auth-error">{error}</p>}
+        {error && <div className="auth-error">{error}</div>}
       </form>
     </div>
   );

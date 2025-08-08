@@ -1,15 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { formatTimestamp } from "../helper";
 
-function ChatWindow({ conversationData, onPostMessage, isLoading }) {
+const ChatWindow = forwardRef(({ conversationData, onPostMessage, isLoading }, ref) => {
   const [messageBar, setMessageBar] = useState("");
   const scrollRef = useRef(null);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [conversationData]);
 
   const handleSendMessage = () => {
     if (messageBar.trim() === "") return;
@@ -23,6 +17,25 @@ function ChatWindow({ conversationData, onPostMessage, isLoading }) {
       handleSendMessage();
     }
   };
+
+  // Manages the auto-scrolling behavior of the chat window
+  useEffect(() => {
+    const chatMain = scrollRef.current;
+    if (!chatMain) return;
+
+    chatMain.scrollTop = chatMain.scrollHeight;
+
+    const observer = new MutationObserver(() => {
+      const isScrolledToBottom = chatMain.scrollHeight - chatMain.clientHeight <= chatMain.scrollTop + 100;
+      if (isScrolledToBottom) {
+        chatMain.scrollTop = chatMain.scrollHeight;
+      }
+    });
+
+    observer.observe(chatMain, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [conversationData]);
 
   if (isLoading) {
     return (
@@ -58,6 +71,7 @@ function ChatWindow({ conversationData, onPostMessage, isLoading }) {
       </div>
       <div className="dashboard-chat-bar">
         <textarea
+          ref={ref}
           className="chat-textarea"
           value={messageBar}
           onChange={(e) => setMessageBar(e.target.value)}
@@ -69,6 +83,6 @@ function ChatWindow({ conversationData, onPostMessage, isLoading }) {
       </div>
     </div>
   );
-}
+});
 
 export default ChatWindow;

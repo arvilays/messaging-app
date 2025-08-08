@@ -3,13 +3,22 @@
   height: 100vh;
 }
 
+.loading-container, 
+.error-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  color: white;
+}
+
 .chat-loading-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   color: rgb(180, 180, 180);
-  /* Uses a color from your existing theme */
   font-size: 1.2rem;
 }
 
@@ -19,6 +28,7 @@
   display: flex;
   flex-direction: column;
   width: 300px;
+  padding-bottom: 5px;
 }
 
 /* Sidebar: Header */
@@ -54,7 +64,6 @@
 .conversation-category-add:hover {
   cursor: pointer;
   color: rgb(233, 233, 233);
-  ;
 }
 
 .conversation-category-add-users {
@@ -122,7 +131,12 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin: 10px 20px 20px;
+  margin-bottom: 5px;
+  padding: 15px;
+
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
 }
 
 .conversation-item {
@@ -221,6 +235,10 @@
 
 .profile-name {
   font-weight: 800;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-settings {
@@ -293,7 +311,7 @@
   display: flex;
   background-color: rgb(100, 100, 100);
   margin-top: auto;
-  padding: 10px;
+  padding: 18px;
 }
 
 .chat-textarea {
@@ -319,13 +337,31 @@
 
 /** --- MEMBERS LIST --- **/
 .dashboard-members {
+  display: flex;
+  flex-direction: column;
   background-color: rgb(43, 43, 43);
   width: 300px;
 }
 
 .dashboard-members-header {
   color: rgb(180, 180, 180);
+  display: flex;
+  align-items: center;
   padding: 20px 20px 0px;
+}
+
+.dashboard-members-add {
+  color: rgb(85, 85, 85);
+  font-size: 1.5em;
+  margin-left: auto;
+
+  transition: color 0.25s;
+  will-change: color;
+}
+
+.dashboard-members-add:hover {
+  cursor: pointer;
+  color: rgb(233, 233, 233);
 }
 
 .dashboard-members-list {
@@ -333,7 +369,12 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 10px 20px 20px;
+  margin-top: 10px;
+  padding: 0px 20px 20px;
+
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
 }
 
 .dashboard-members-user {
@@ -353,12 +394,70 @@
 
 .dashboard-members-username {
   font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.dashboard-members-leave {
+  color: white;
+  display: flex;
+  align-items: center;
+  margin: auto 0px 0px;
+  padding: 22px;
+}
 
+.dashboard-members-leave img {
+  margin-left: auto;
+  width: 30px;
+  filter: brightness(50%);
+  transition: filter 0.25s;
+  will-change: filter;
+}
 
+.dashboard-members-leave img:hover {
+  cursor: pointer;
+  filter: brightness(100%);
+}
 
+.dashboard-leave-confirm {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  padding: 20px;
+  border-radius: 20px;
+}
 
+.dashboard-leave-confirm-choices {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dashboard-leave-confirm-choice {
+  padding: 4px 10px;
+  border-radius: 10px;
+  transition: filter 0.25s;
+  will-change: filter;
+}
+
+.dashboard-leave-confirm-choice:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
+
+.dashboard-leave-confirm-yes {
+  background-color: rgb(54, 114, 54);
+}
+
+.dashboard-leave-confirm-no {
+  background-color: rgb(233, 54, 54);
+}
 
 
 

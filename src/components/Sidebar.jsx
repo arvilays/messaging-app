@@ -1,17 +1,54 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import "emoji-picker-element";
 import echoLogo from "../assets/echo_logo.png";
 import globalIcon from "../assets/web.svg";
 import logoutIcon from "../assets/logout.svg";
 
-function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogout, onConversationsUpdate, apiClient }) {
+function Sidebar({ user, currentConversationId, onConversationSelect, onLogout, onConversationCreated, onConversationUpdate, apiClient }) {
   const [showAddConversation, setShowAddConversation] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [dmUsers, setDmUsers] = useState([""]);
 
   const emojiPickerRef = useRef(null);
   const avatarRef = useRef(null);
+  const addUserInputsRef = useRef([]);
 
+  const updateUserAvatar = useCallback(async (emoji) => {
+    try {
+      await apiClient.request(`/user-avatar`, { method: "POST", data: { emoji } });
+      onConversationUpdate();
+    } catch (err) {
+      alert("Error updating avatar: " + err.message);
+    }
+  }, [apiClient, onConversationUpdate]);
+
+  const handleUserChange = (index, value) => {
+    const newUsers = [...dmUsers];
+    newUsers[index] = value;
+    setDmUsers(newUsers);
+  };
+
+  const handleAddConversationUser = () => setDmUsers([...dmUsers, ""]);
+
+  const handleCreateConversation = async () => {
+    try {
+      const newConversation = await apiClient.request("/conversation", {
+        method: "POST",
+        data: { usernames: dmUsers.filter(u => u) },
+      });
+
+      if (newConversation && newConversation.conversationId) {
+        onConversationCreated(newConversation.conversationId);
+      }
+
+      setDmUsers([""]);
+      setShowAddConversation(false);
+    } catch (err) {
+      alert("Error creating conversation: " + err.message);
+    }
+  };
+
+  // Handles closing the emoji picker when the user clicks outside of it
   useEffect(() => {
     const handleClick = (event) => {
       if (avatarRef.current && avatarRef.current.contains(event.target)) {
@@ -32,40 +69,7 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
     };
   }, [showEmojiPicker]); 
 
-  const handleUserChange = (index, value) => {
-    const newUsers = [...dmUsers];
-    newUsers[index] = value;
-    setDmUsers(newUsers);
-  };
-
-  const handleAddConversationUser = () => setDmUsers([...dmUsers, ""]);
-
-  const handleCreateConversation = async () => {
-    try {
-      await apiClient.request("/conversation", {
-        method: "POST",
-        data: { usernames: dmUsers.filter(u => u) },
-      });
-      onConversationsUpdate();
-      setDmUsers([""]);
-      setShowAddConversation(false);
-    } catch (err) {
-      alert("Error creating conversation: " + err.message);
-    }
-  };
-
-  const updateUserAvatar = async (emoji) => {
-    try {
-      await apiClient.request(`/user-avatar`, {
-        method: "POST",
-        data: { emoji },
-      });
-      onConversationsUpdate();
-    } catch (err) {
-      alert("Error updating avatar: " + err.message);
-    }
-  };
-
+  // Attaches an event listener to the emoji picker web component
   useEffect(() => {
     const picker = emojiPickerRef.current;
     if (!picker || !showEmojiPicker) return;
@@ -79,6 +83,19 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
     return () => picker.removeEventListener("emoji-click", handleEmojiClick);
   }, [showEmojiPicker, updateUserAvatar]);
 
+  // Auto-focuses the last input field in the "Add DM" form
+  useEffect(() => {
+    if (showAddConversation) {
+      const lastInput = addUserInputsRef.current[addUserInputsRef.current.length - 1];
+      if (lastInput) lastInput.focus();
+    }
+  }, [dmUsers.length, showAddConversation]);
+
+  // Resets the "Add DM" form whenever it is opened or closed
+  useEffect(() => {
+    setDmUsers([""]);
+  }, [showAddConversation]);
+
   return (
     <div className="dashboard-sidebar">
       <div className="dashboard-sidebar-header noselect">
@@ -89,7 +106,7 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
       <div className="conversation-global noselect">
         <div
           className={`conversation-item ${currentConversationId === "global" ? "selected" : ""}`}
-          onClick={() => setCurrentConversationId("global")}
+          onClick={() => onConversationSelect("global")}
         >
           <img className="conversation-icon-global" src={globalIcon} alt="global chat" />
           <div className="conversation-name">Global Chat</div>
@@ -100,11 +117,7 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
 
       <div className="conversation-category noselect">
         <div className="conversation-category-title">Direct Messages</div>
-        <div
-          className="conversation-category-add"
-          title="Add New DM"
-          onClick={() => setShowAddConversation(!showAddConversation)}
-        >
+        <div className="conversation-category-add" title="Add New DM" onClick={() => setShowAddConversation(!showAddConversation)}>
           {showAddConversation ? "—" : "+"}
         </div>
       </div>
@@ -114,14 +127,21 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
           {dmUsers.map((user, i) => (
             <input
               key={i}
+              ref={el => addUserInputsRef.current[i] = el}
               type="text"
               value={user}
               onChange={(e) => handleUserChange(i, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Tab" && !e.shiftKey && i === dmUsers.length - 1) {
+                  e.preventDefault();
+                  handleAddConversationUser();
+                }
+              }}
               placeholder="Username"
             />
           ))}
           <button className="add-user" onClick={handleAddConversationUser}>+</button>
-          <button className="create-conversation" onClick={handleCreateConversation}>Create</button>
+          <button className="create-conversation" onClick={handleCreateConversation}>Create Conversation</button>
         </div>
       )}
 
@@ -130,8 +150,8 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
           <div
             className={`conversation-item ${currentConversationId === convo.id ? "selected" : ""}`}
             key={convo.id}
-            title={convo.title}
-            onClick={() => setCurrentConversationId(convo.id)}
+            title={convo.users.filter(u => u.username !== user.username).map(u => u.username).join(', ')}
+            onClick={() => onConversationSelect(convo.id)}
           >
             <div className="conversation-icon">
               {(() => {
@@ -176,8 +196,10 @@ function Sidebar({ user, currentConversationId, setCurrentConversationId, onLogo
           ref={avatarRef}
           className="profile-avatar noselect"
           onClick={() => setShowEmojiPicker(prev => !prev)}
-        >{user.emoji}</div>
-        <div className="profile-name">{user.username}</div>
+        >
+          {user.emoji}
+        </div>
+        <div className="profile-name" title={user.username}>{user.username}</div>
         <img
           className="profile-settings noselect"
           onClick={onLogout}
