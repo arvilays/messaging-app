@@ -65,14 +65,14 @@ function MembersList({ conversationData, onMemberUpdate, apiClient, onConversati
     setShowAddUser(false);
     setAddUser("");
     setShowLeaveConversation(false);
-  }, [conversationData]);
+  }, [conversationData?.id]);
 
   // Resets the "Add User" form whenever it is opened or closed
   useEffect(() => {
     setAddUser("");
   }, [showAddUser]);
 
-  if (!conversationData.users || conversationData.users.length === 0) {
+  if (!conversationData?.users || conversationData.users.length === 0) {
     return (
       <div className="dashboard-members">
         <div className="dashboard-members-header">Members</div>

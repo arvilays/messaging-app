@@ -49,4 +49,6 @@ class ApiClient {
   }
 }
 
-export default new ApiClient("https://messaging-app-api-cm0j.onrender.com/api");
+const DEV = "http://localhost:3000/api";
+const PROD = "https://messaging-app-api-cm0j.onrender.com/api";
+export default new ApiClient(PROD);
