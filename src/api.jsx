@@ -49,4 +49,4 @@ class ApiClient {
   }
 }
 
-export default new ApiClient('http://localhost:3000/api');
+export default new ApiClient('https://messaging-app-api-cm0j.onrender.com/api');
