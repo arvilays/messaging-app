@@ -108,7 +108,11 @@ function MembersList({ conversationData, onMemberUpdate, apiClient, onConversati
       )}
 
       <div className="dashboard-members-list">
-        {conversationData.users.map((user) => (
+        {[...conversationData.users]
+          .sort((a, b) =>
+            a.username.localeCompare(b.username, undefined, { sensitivity: 'base' })
+          )
+          .map((user) => (
           <div className="dashboard-members-user" key={user.username}>
             <div className="dashboard-members-avatar noselect">{user.emoji || '👤'}</div>
             <div className="dashboard-members-username" title={user.username}>{user.username}</div>
