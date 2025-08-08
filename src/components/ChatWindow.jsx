@@ -37,6 +37,15 @@ const ChatWindow = forwardRef(({ conversationData, onPostMessage, isLoading }, r
     return () => observer.disconnect();
   }, [conversationData]);
 
+  // Adjusts chat bar size as user types
+  useEffect(() => {
+    const textarea = ref.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [messageBar, ref]);
+
   if (isLoading) {
     return (
       <div className="dashboard-chat">
