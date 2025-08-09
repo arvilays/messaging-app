@@ -6,13 +6,25 @@ import "../styles/welcome.css";
 
 function Welcome() {
   const [isLoginView, setIsLoginView] = useState(true);
-  
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
   const { apiClient, token, setToken } = useOutletContext();
   const navigate = useNavigate();
 
   const handleAuthSuccess = (token) => {
     setToken(token);
     navigate("/dashboard");
+  };
+
+  const handleGuestSignup = async () => {
+    setIsGuestLoading(true);
+    try {
+      const response = await apiClient.request("/guest-signup", { method: "POST" });
+      setToken(response.token);
+      navigate("/dashboard");
+    } catch (err) {
+      alert("Could not create a guest account. Please try again.");
+      setIsGuestLoading(false);
+    }
   };
 
   // Navigate to dashboard if token already exists
@@ -36,7 +48,16 @@ function Welcome() {
         />
 
         <div className="welcome-link" onClick={() => setIsLoginView(!isLoginView)}>
-          {isLoginView ? "Sign Up" : "Log In"}
+          {isLoginView ? "Need an account? Sign Up" : "Already have an account? Log In"}
+        </div>
+
+        <div className="guest-login">
+          <button
+            onClick={handleGuestSignup}
+            disabled={isGuestLoading}
+          >
+            {isGuestLoading ? "Creating Account..." : "Guest Login ➡️"}
+          </button>
         </div>
       </div>
 

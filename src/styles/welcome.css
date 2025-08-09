@@ -82,7 +82,7 @@
 .signup-disclaimer {
   background-color: black;
   color: white;
-  font-size: 0.75em;
+  font-size: 0.6em;
   text-align: center;
   margin: -5px 0px 8px;
   padding: 10px;
@@ -90,7 +90,8 @@
 }
 
 /* --- Navigation Link --- */
-.welcome-link {
+.welcome-link,
+.guest-login button {
   background-color: black;
   color: white;
   font-size: 0.8em;
@@ -103,10 +104,15 @@
   will-change: background-color, color;
 }
 
-.welcome-link:hover {
+.welcome-link:hover,
+.guest-login button:hover {
   cursor: pointer;
   background-color: white;
   color: black;
+}
+
+.guest-login {
+  margin-top: -5px;
 }
 
 /* --- Credits --- */

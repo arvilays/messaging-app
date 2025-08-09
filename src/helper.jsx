@@ -1,3 +1,4 @@
+// Format timestamp (Discord style)
 export const formatTimestamp = (isoString) => {
   const date = new Date(isoString);
   const now = new Date();
