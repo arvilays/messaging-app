@@ -52,13 +52,14 @@ function AuthForm({ isLogin, apiClient, onAuthSuccess }) {
             You will be automatically logged into a global chat. Your username will be visible to everyone, so please do not share any sensitive information.
           </div>
         )}
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
+        <input type="text" name="username" placeholder="Username" required minlength="1" maxlength="32" />
+        <input type="password" name="password" placeholder="Password" minlength="3" required />
         {!isLogin && (
           <input
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
+            minlength="3"
             required
           />
         )}

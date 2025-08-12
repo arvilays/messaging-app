@@ -87,6 +87,8 @@ const ChatWindow = forwardRef(({ conversationData, onPostMessage, isLoading }, r
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
           rows={1}
+          minlength="1"
+          maxlength="2000"
         />
         <button onClick={handleSendMessage}>Send</button>
       </div>
