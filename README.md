@@ -1,6 +1,6 @@
 # 💬 Echo Messenger | Full-Stack Chat Application
 
-![Echo Messenger Preview](./public/preview-1.png)
+![Echo Messenger Preview 1](./public/preview-1.png)
 
 > A full-stack messaging application featuring secure JWT authentication, dynamic group conversations, and optimized real-time data synchronization.
 
