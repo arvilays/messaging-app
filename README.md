@@ -42,25 +42,25 @@ This project is split into a frontend and [backend](https://github.com/arvilays/
     cd messaging-app-api
     ```
 
-3. **Initialize Database:**
-    ```bash
-    npm run prisma:migrate
+3. **Install dependencies:**
+    ```bash 
+    npm install
     ```
 
-4. **Environment Variables:** Create a .env file in the root and add your PostgreSQL connection string and JWT secret.
+4. **Initialize Database:**
+    ```bash
+    npx prisma init
+    ```
+
+5. **Environment Variables:** Create a .env file in the root and add your PostgreSQL connection string and JWT secret.
     ```
     DATABASE_URL="postgresql://user:password@localhost:5432/echo_db"
     JWT_SECRET="your_secret_key"
     ```
 
-5. **Initialize Database:**
+5. **Start the backend server:**
    ```bash
-   npm run prisma:migrate
-   ```
-
-6. **Start Server:**
-   ```bash
-   npm run dev
+   node --watch .\app.js
    ```
 
 ### Frontend Setup
