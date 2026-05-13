@@ -47,7 +47,7 @@ This project is split into a frontend and [backend](https://github.com/arvilays/
     npm install
     ```
 
-4. **Initialize Database:**
+4. **Initialize database:**
     ```bash
     npx prisma init
     ```
